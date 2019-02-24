@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { ReactComponent as Logo } from './resources/train.svg';
 import Button from '../src/components/Button';
 import './sass/styles.scss';
+import {getAllStations, getStationName} from "./api/findPaths";
+import {constructGraph} from "./api/buildGraph";
 
 class App extends Component {
   render() {
+      getAllStations();
+      console.log(constructGraph());
     return (
         <section className="bg-gradient-cold hero is-fullheight">
       <div className="hero-body">
