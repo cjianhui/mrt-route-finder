@@ -1,0 +1,38 @@
+.btn-hover {
+    width: 200px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+&:hover {
+     background-position: 100% 0;
+     moz-transition: all .4s ease-in-out;
+     -o-transition: all .4s ease-in-out;
+     -webkit-transition: all .4s ease-in-out;
+     transition: all .4s ease-in-out;
+ }
+&:active {
+     background-position: 50% 0;
+     moz-transition: all .4s ease-in-out;
+     -o-transition: all .4s ease-in-out;
+     -webkit-transition: all .4s ease-in-out;
+     transition: all .4s ease-in-out;
+ }
+&:focus {
+     outline: none;
+ }
+&.gradient {
+     background-image: linear-gradient(to right, #fc6076, #ff9a44, #ef9d43, #e75516);
+     box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+ }
+}
