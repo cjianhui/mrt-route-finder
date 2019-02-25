@@ -1,28 +1,40 @@
 import { constructGraph } from "./buildGraph";
 const stationsJson = require('./stations');
-
+const THRESHOLD = 40;
 /*
     Path Finding API
 */
-export function getPaths(source, destination) {
-    const MRTGraph = constructGraph();
 
-    function getAllPaths(MRTGraph, start, end, path=[]) {
+
+/*
+    Returns an array of simple paths (no repeated vertices) between two vertices (origin and destination)
+ */
+export function getPaths(origin, destination) {
+    const MRTGraph = constructGraph(); // Get graph representation of stations
+
+    function findAllPaths(MRTGraph, start, end, path=[]) {
+
         path = path.slice();
         path.push(start);
 
-        if (start === end) {
-            return [path];
-        }
+        if (start === end) return [path]; // return path upon reaching destination
 
-        if (!Object.keys(MRTGraph).includes(start)) return [];
+        //if (!Object.keys(MRTGraph).includes(startNode)) return []; // if node not valid - return empty array
 
-        let paths = [];
+        let paths = []; // store all paths
 
+        // Use dfs to explore all possible routes from current station
+        // Add possible paths to `paths` array
 
-        for (let vertex of MRTGraph[start]) {
-            if (!path.includes(vertex)) {
-                let newPaths = getAllPaths(MRTGraph, vertex, end, path);
+        for (let node of MRTGraph[start]) {
+            if (!path.includes(node)) {
+                // Since there can be exponentially many shortest paths between two nodes in a graph
+                // We limit path exploration via a preset threshold
+                if (path.length > THRESHOLD) {
+                    path = [];
+                    break;
+                }
+                let newPaths = findAllPaths(MRTGraph, node, end, path);
 
                 if (newPaths.length > 0) {
                     for (let path of newPaths) {
@@ -31,61 +43,35 @@ export function getPaths(source, destination) {
                 }
             }
         }
+
         return paths;
     }
 
+    let paths = findAllPaths(MRTGraph, origin, destination);
 
-    let routes = getAllPaths(MRTGraph, source, destination);
-    return routes;
+    //  Get top 5 routes sorted by number of stations
+    let sortedPaths = paths.sort((a, b) => {
+        return a.length - b.length;
+    }).slice(0, 5); // take shortest 5 routes
+
+    return sortedPaths;
 }
-//     function dfs(MRTGraph, start, end, path=[], onPath={}) {
-//         path.push(start);
-//         onPath[start] = true;
-//
-//         if (start === end) {
-//             processCurrentPath(path);
-//         } else {
-//             for (let vertex of MRTGraph[start]) {
-//                 if (!onPath[vertex]) {
-//                     dfs(MRTGraph, vertex, end, path, onPath);
-//                 }
-//             }
-//         }
-//
-//         path.pop();
-//         onPath[start] = false;
-//     }
-//
-//     dfs(MRTGraph, source, destination);
-// }
-//
-// function processCurrentPath(path) {
-//     let reverse = [];
-//     for (let node of path) {
-//         reverse.push(node);
-//     }
-//
-//     if (reverse.length >= 1) {
-//         console.log(reverse.pop());
-//     }
-//     while (reverse.length > 0) {
-//         console.log(reverse.pop());
-//     }
-// }
 
-
+/*
+    Returns shortest path between two vertices
+ */
 export function getShortestPath(vertexSource, vertexDestination) {
     const MRTGraph = constructGraph();
 
-    var queue = [];
+    let queue = [];
     queue.push(vertexSource);
-    var visited = {};
+    let visited = {};
     visited[vertexSource] = true;
-    var paths = [];
+    let paths = [];
 
     while(queue.length) {
-        var vertex = queue.shift();
-        for(var i = 0; i < MRTGraph[vertex].length; i++) {
+        let vertex = queue.shift();
+        for(let i = 0; i < MRTGraph[vertex].length; i++) {
             if(!visited[MRTGraph[vertex][i]]) {
                 visited[MRTGraph[vertex][i]] = true;
                 queue.push(MRTGraph[vertex][i]);
@@ -98,7 +84,7 @@ export function getShortestPath(vertexSource, vertexDestination) {
         return undefined;
     }
 
-    var path = [];
+    let path = [];
     for(var j = vertexDestination; j !== vertexSource; j = paths[j]) {
         path.push(j);
     }
@@ -182,7 +168,7 @@ export function getStationJson() {
 }
 
 /*
-    Helper function to convert a station number object into an array of station number objects
+    Converts a station number object into an array of station number objects
     Example: {NS: 17, CC: 15, CE: 15} -> [{NS: 17}, {CC: 15}, {CE:15}]
  */
 export function getStationNumberObjArray(stationNumbers) {
@@ -198,4 +184,5 @@ export function getStationNumberObjArray(stationNumbers) {
     }
     return stationNumberArray;
 }
+
 

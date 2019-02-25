@@ -33,7 +33,6 @@ export function constructGraph() {
                 // Add stations before and after current station
                 if (stations[i - 1] !== undefined) {
                     let prevStationName = getStationName({[line]: stations[i - 1]});
-                    console.log(prevStationName);
                     if (!MRTGraph[stationName].includes(prevStationName)) {
                         MRTGraph[stationName].push(prevStationName);
                     }
@@ -41,7 +40,6 @@ export function constructGraph() {
 
                 if (stations[i + 1] !== undefined) {
                     let nextStationName = getStationName({[line]: stations[i + 1]});
-                    console.log(nextStationName);
                     if (!MRTGraph[stationName].includes(nextStationName)) {
                         MRTGraph[stationName].push(nextStationName);
                     }
