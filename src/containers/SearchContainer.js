@@ -7,9 +7,26 @@ import "./SearchContainer.scss";
 export default class SearchContainer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedOrigin: null,
+            selectedDestination: null
+        };
     }
 
+    handleOriginChange = (selectedOrigin) => {
+        this.setState({ selectedOrigin });
+        console.log(`Origin selected:`, selectedOrigin);
+    };
+
+    handleDestinationChange = (selectedDestination) => {
+        this.setState({ selectedDestination });
+        console.log('Destination selected:', selectedDestination);
+    };
+
+
+
     render() {
+        const { selectedOrigin, selectedDestination } = this.state;
         return (
             <div className="container has-text-centered">
                 <Logo style={{width:80, height:80}}/>
@@ -21,8 +38,20 @@ export default class SearchContainer extends Component {
                     Plan your trips with <span className="has-text-weight-bold">ease</span>
                 </p>
 
-                <AutoSuggest label="From"/>
-                <AutoSuggest label="To"/>
+                <AutoSuggest
+                    label="From"
+                    name="source"
+                    placeholder="Select origin"
+                    onChange={this.handleOriginChange}
+                    value={selectedOrigin}
+                />
+                <AutoSuggest
+                    label="To"
+                    name="destination"
+                    placeholder="Select destination"
+                    onChange={this.handleDestinationChange}
+                    value={selectedDestination}
+                />
 
                 <Button text="NAVIGATE"/>
 
