@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {ReactComponent as Logo} from "../resources/train.svg";
 import Button from "../components/Button";
+import AutoSuggest from "../components/AutoSuggest";
 import "./SearchContainer.scss";
 
 export default class SearchContainer extends Component {
@@ -20,29 +21,8 @@ export default class SearchContainer extends Component {
                     Plan your trips with <span className="has-text-weight-bold">ease</span>
                 </p>
 
-                <div className="field has-addons has-addons-centered">
-                    <p className="control">
-                        <a className="button is-static is-info has-text-white" style={{width: 80}}>
-                            From
-                        </a>
-                    </p>
-                    <p className="control">
-                        <input className="input" type="text" style={{width:300}}/>
-                    </p>
-
-                </div>
-
-                <div className="field has-addons has-addons-centered">
-                    <p className="control">
-                        <a className="button is-static is-info has-text-white" style={{width: 80}}>
-                            To
-                        </a>
-                    </p>
-                    <p className="control">
-                        <input className="input" type="text" style={{width:300}}/>
-                    </p>
-
-                </div>
+                <AutoSuggest label="From"/>
+                <AutoSuggest label="To"/>
 
                 <Button text="NAVIGATE"/>
 
