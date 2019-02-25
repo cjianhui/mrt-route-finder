@@ -1,4 +1,9 @@
-import {getAllStations, getStationJson, getStationName, getStationNumberObjArray} from "./findPaths";
+import {
+    getAllStations,
+    getStationJson,
+    getStationName,
+    getStationNumberObjArray
+} from "./findPaths";
 
 /*
     Constructs a graph of the following form:
@@ -26,10 +31,21 @@ export function constructGraph() {
                 let stations = allStations[line];
                 let i = stations.indexOf(station[line]);
                 // Add stations before and after current station
-                if (stations[i - 1] !== undefined &&
-                    MRTGraph[stationName].indexOf(stations[i - 1]) === -1) { MRTGraph[stationName].push({[line]: stations[i - 1]}); }
-                if (stations[i + 1] !== undefined &&
-                    MRTGraph[stationName].indexOf(stations[i + 1]) === -1) { MRTGraph[stationName].push({[line]: stations[i + 1]}); }
+                if (stations[i - 1] !== undefined) {
+                    let prevStationName = getStationName({[line]: stations[i - 1]});
+                    console.log(prevStationName);
+                    if (!MRTGraph[stationName].includes(prevStationName)) {
+                        MRTGraph[stationName].push(prevStationName);
+                    }
+                }
+
+                if (stations[i + 1] !== undefined) {
+                    let nextStationName = getStationName({[line]: stations[i + 1]});
+                    console.log(nextStationName);
+                    if (!MRTGraph[stationName].includes(nextStationName)) {
+                        MRTGraph[stationName].push(nextStationName);
+                    }
+                }
             }
         }
     }

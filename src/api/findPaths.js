@@ -1,9 +1,118 @@
+import { constructGraph } from "./buildGraph";
 const stationsJson = require('./stations');
 
 /*
     Path Finding API
 */
+export function getPaths(source, destination) {
+    const MRTGraph = constructGraph();
 
+    function getAllPaths(MRTGraph, start, end, path=[]) {
+        path = path.slice();
+        path.push(start);
+
+        if (start === end) {
+            return [path];
+        }
+
+        if (!Object.keys(MRTGraph).includes(start)) return [];
+
+        let paths = [];
+
+
+        for (let vertex of MRTGraph[start]) {
+            if (!path.includes(vertex)) {
+                let newPaths = getAllPaths(MRTGraph, vertex, end, path);
+
+                if (newPaths.length > 0) {
+                    for (let path of newPaths) {
+                        paths.push(path);
+                    }
+                }
+            }
+        }
+        return paths;
+    }
+
+
+    let routes = getAllPaths(MRTGraph, source, destination);
+    return routes;
+}
+//     function dfs(MRTGraph, start, end, path=[], onPath={}) {
+//         path.push(start);
+//         onPath[start] = true;
+//
+//         if (start === end) {
+//             processCurrentPath(path);
+//         } else {
+//             for (let vertex of MRTGraph[start]) {
+//                 if (!onPath[vertex]) {
+//                     dfs(MRTGraph, vertex, end, path, onPath);
+//                 }
+//             }
+//         }
+//
+//         path.pop();
+//         onPath[start] = false;
+//     }
+//
+//     dfs(MRTGraph, source, destination);
+// }
+//
+// function processCurrentPath(path) {
+//     let reverse = [];
+//     for (let node of path) {
+//         reverse.push(node);
+//     }
+//
+//     if (reverse.length >= 1) {
+//         console.log(reverse.pop());
+//     }
+//     while (reverse.length > 0) {
+//         console.log(reverse.pop());
+//     }
+// }
+
+
+export function getShortestPath(vertexSource, vertexDestination) {
+    const MRTGraph = constructGraph();
+
+    var queue = [];
+    queue.push(vertexSource);
+    var visited = {};
+    visited[vertexSource] = true;
+    var paths = [];
+
+    while(queue.length) {
+        var vertex = queue.shift();
+        for(var i = 0; i < MRTGraph[vertex].length; i++) {
+            if(!visited[MRTGraph[vertex][i]]) {
+                visited[MRTGraph[vertex][i]] = true;
+                queue.push(MRTGraph[vertex][i]);
+                // save paths between vertices
+                paths[MRTGraph[vertex][i]] = vertex;
+            }
+        }
+    }
+    if(!visited[vertexDestination]) {
+        return undefined;
+    }
+
+    var path = [];
+    for(var j = vertexDestination; j !== vertexSource; j = paths[j]) {
+        path.push(j);
+    }
+    path.push(j);
+    return path.reverse();
+
+}
+
+
+/*
+    ----------------------------------
+    Helper Functions
+    ----------------------------------
+ */
 
 /*
     Returns an object with line as key and (sorted) station numbers as the value
@@ -53,10 +162,17 @@ export function getStationNumber(station) {
 export function getStationName(lineNumber) {
     let [line, number] = Object.entries(lineNumber)[0];
 
-
     for (let [stationName, stationNumber] of Object.entries(stationsJson)) {
-         if (stationNumber.hasOwnProperty(line) && stationNumber[line] === number) {
-             return stationName;
+         if (stationNumber.hasOwnProperty(line)) {
+             if (stationNumber[line].constructor === Array) {
+                 if (stationNumber[line].includes(number)) {
+                     return stationName;
+                 }
+             } else {
+                 if (stationNumber[line] === number) {
+                     return stationName;
+                 }
+             }
          }
     }
 }
@@ -82,3 +198,4 @@ export function getStationNumberObjArray(stationNumbers) {
     }
     return stationNumberArray;
 }
+
