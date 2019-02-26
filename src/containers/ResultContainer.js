@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {ReactComponent as Logo} from "../resources/location.svg";
 import Button from "../components/Button";
 import Fade from "../components/Fade";
+import Tag from "../components/Tag";
 import "./ResultContainer.scss";
+
 
 import {
     Accordion,
@@ -20,8 +22,6 @@ export default class ResultContainer extends Component {
             loading: true,
             routes: null
         };
-
-        console.log(this.state);
     }
 
     componentDidMount() {
@@ -45,6 +45,7 @@ export default class ResultContainer extends Component {
 
         const { history } = this.props;
         const { routes } = this.state;
+        console.log(routes);
 
         return (
             this.state.loading ?
@@ -66,7 +67,6 @@ export default class ResultContainer extends Component {
                                 <AccordionItem>
                                     <AccordionItemTitle>
                                         <h3 className="u-position-relative">
-                                            Accessible Accordion
                                             <div className="accordion__arrow" role="presentation" />
                                         </h3>
                                     </AccordionItemTitle>

@@ -133,7 +133,7 @@ export function getPathDetails(paths) {
     for (let path of paths) {
         let currentStation = path[0];
         let currentLine = getLine(path[0], path[1]);
-        console.log(currentLine);
+        //console.log(currentLine);
         //const lineNumber = getLineNumber({ [path[0]] : currentLine});
         let directions = { steps: [] };
 

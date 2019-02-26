@@ -18,12 +18,12 @@ export default class SearchContainer extends Component {
 
     handleOriginChange = (selectedOrigin) => {
         this.setState({ selectedOrigin });
-        console.log(`Origin selected:`, selectedOrigin);
+        //console.log(`Origin selected:`, selectedOrigin);
     };
 
     handleDestinationChange = (selectedDestination) => {
         this.setState({ selectedDestination });
-        console.log('Destination selected:', selectedDestination);
+        //console.log('Destination selected:', selectedDestination);
     };
 
 
