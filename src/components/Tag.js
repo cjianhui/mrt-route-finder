@@ -25,7 +25,6 @@ export function getLineColor(line) {
         case "SE":
         case "SW":
             return "#999999";
-            break;
         case "TE":
             return "#784008";
         default:

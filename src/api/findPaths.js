@@ -7,7 +7,6 @@ const allStations = getStations();
 export default function getRouteSuggestions(origin, destination) {
     let paths = getPaths(origin, destination);
     let pathDirections = getPathDetails(paths);
-    console.log(pathDirections);
     return pathDirections;
 }
 

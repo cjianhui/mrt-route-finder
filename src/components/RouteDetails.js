@@ -37,7 +37,7 @@ function createRouteSummary(steps) {
             }
         }
     }
-    summary.push(<p><span className="tag has-text-black" style={{marginTop: 5, backgroundColor: '#C0C0C0'}}>{totalStops} stops</span></p>);
+    summary.push(<p><span className="tag has-text-black" style={{marginTop: 10, backgroundColor: '#C0C0C0'}}>{totalStops} stops</span></p>);
 
     return summary;
 }
