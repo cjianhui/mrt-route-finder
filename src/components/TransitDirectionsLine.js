@@ -14,7 +14,7 @@ function getInstructionString(step) {
     } else if (step.type === 'change') {
         return `Change from ${step.from} line to ${step.to} line.`
     }
-};
+}
 
 function getColor(step) {
     if (step.type === 'ride') {
@@ -31,8 +31,6 @@ function getCurrentStation(step) {
         return step.station;
     }
 }
-
-
 
 const StepSegment = ({ step }) => (
     <li className="steps-segment is-active">

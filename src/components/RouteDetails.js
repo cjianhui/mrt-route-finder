@@ -1,8 +1,9 @@
 import React from 'react';
+import { Accordion, AccordionItem, AccordionItemBody, AccordionItemTitle } from "react-accessible-accordion";
 import './RouteDetails.scss';
 import Tag from '../components/Tag';
 import TransitDirectionLine from '../components/TransitDirectionsLine';
-import { Accordion, AccordionItem, AccordionItemBody, AccordionItemTitle } from "react-accessible-accordion";
+
 
 const RouteItem = ({ steps }) => (
     <AccordionItem>
@@ -36,7 +37,7 @@ function createRouteSummary(steps) {
             }
         }
     }
-    summary.push(<p style={{marginTop: 5}}>{totalStops} stops</p>);
+    summary.push(<p><span className="tag has-text-black" style={{marginTop: 5, backgroundColor: '#C0C0C0'}}>{totalStops} stops</span></p>);
 
     return summary;
 }
