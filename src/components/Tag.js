@@ -5,9 +5,9 @@ function getLineColor(line) {
     switch (line) {
         case "CC":
         case "CE":
-            return "ccl";
+            return "#fa9e0d";
         case "DT":
-            return "dtl";
+            return "#005ec4";
         case "EW":
         case "CG":
             return "#009645";
@@ -34,7 +34,17 @@ function getLineColor(line) {
     }
 }
 
+function getTextColor(line) {
+    if (line === "BP" || line === "SE" || line === "SW") {
+        return "has-text-black";
+    } else {
+        return "has-text-white";
+    }
+}
 
 export default ({ line }) => (
-    <span className={`tag has-text-white has-text-weight-bold`} style={{backgroundColor: `${getLineColor(line)}`}}>{line}</span>
+    <span className={`tag ${getTextColor(line)} has-text-weight-bold`}
+          style={{backgroundColor: `${getLineColor(line)}`}}>
+        {line}
+    </span>
 )
