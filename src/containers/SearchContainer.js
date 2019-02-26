@@ -53,7 +53,7 @@ export default class SearchContainer extends Component {
                     value={selectedDestination}
                 />
 
-                <Button text="NAVIGATE"/>
+                <Button text="NAVIGATE" icon="fas fa-location-arrow"/>
 
             </div>
         )
