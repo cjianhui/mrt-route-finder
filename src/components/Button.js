@@ -2,7 +2,7 @@ import React from 'react';
 import './Button.scss';
 export default (props) => (
     <button
-        onClick={props.onclick}
+        onClick={props.onClick}
         className="btn-hover gradient"
         style={props.style}
     >

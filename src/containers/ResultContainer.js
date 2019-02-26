@@ -18,6 +18,8 @@ export default class ResultContainer extends Component {
 
     render () {
 
+        const { history } = this.props;
+
         return (
             <div className="container has-text-centered">
                 <Logo style={{width:70, height:70}}/>
@@ -75,7 +77,7 @@ export default class ResultContainer extends Component {
                                 </AccordionItem>
                             </Accordion>
 
-                            <Button text="CHANGE" icon="fas fa-arrow-left"/>
+                            <Button text="CHANGE" icon="fas fa-arrow-left" onClick={() => history.push('/')}/>
                         </div>
                     </div>
 

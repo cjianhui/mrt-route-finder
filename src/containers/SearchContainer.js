@@ -27,6 +27,7 @@ export default class SearchContainer extends Component {
 
     render() {
         const { selectedOrigin, selectedDestination } = this.state;
+        const { history } = this.props;
         return (
             <div className="container has-text-centered">
                 <Logo style={{width:80, height:80}}/>
@@ -53,7 +54,7 @@ export default class SearchContainer extends Component {
                     value={selectedDestination}
                 />
 
-                <Button text="NAVIGATE" icon="fas fa-location-arrow"/>
+                <Button text="NAVIGATE" icon="fas fa-location-arrow" onClick={() => history.push('/navigate')}/>
 
             </div>
         )
