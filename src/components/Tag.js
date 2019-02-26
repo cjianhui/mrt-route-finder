@@ -30,7 +30,6 @@ function getLineColor(line) {
             return "#784008";
         default:
             return "#999999";
-
     }
 }
 

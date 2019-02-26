@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {ReactComponent as Logo} from "../resources/location.svg";
 import Button from "../components/Button";
 import Fade from "../components/Fade";
-import Tag from "../components/Tag";
+import RouteDetails from "../components/RouteDetails";
 import "./ResultContainer.scss";
 
 
@@ -41,11 +41,14 @@ export default class ResultContainer extends Component {
 
     }
 
+    getRouteDetails(route) {
+
+    }
+
     render () {
 
         const { history } = this.props;
         const { routes } = this.state;
-        console.log(routes);
 
         return (
             this.state.loading ?
@@ -56,60 +59,13 @@ export default class ResultContainer extends Component {
                 :
                 <div className="container has-text-centered">
                 <Fade>
-
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <div className="result-box">
                             <Logo style={{width:70, height:70}}/>
                             <h1 className="title is-4 has-text-black">
                                 Suggested Routes
                             </h1>
-                            <Accordion>
-                                <AccordionItem>
-                                    <AccordionItemTitle>
-                                        <h3 className="u-position-relative">
-                                            <div className="accordion__arrow" role="presentation" />
-                                        </h3>
-                                    </AccordionItemTitle>
-                                    <AccordionItemBody>
-                                        <p>
-                                            Accessible Accordion component for React. Inspired by{' '}
-                                            <a
-                                                href="https://github.com/react-component/collapse"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                rc-collapse
-                                            </a>{' '}
-                                            and{' '}
-                                            <a
-                                                href="https://github.com/daviferreira/react-sanfona"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                react-sanfona
-                                            </a>
-                                            .
-                                        </p>
-                                    </AccordionItemBody>
-                                </AccordionItem>
-                                <AccordionItem className="accordion__item">
-                                    <AccordionItemTitle>
-                                        <h3 className=" u-position-relative u-margin-bottom-s">
-                                            Components
-                                            <div className="accordion__arrow" role="presentation" />
-                                        </h3>
-                                        <div>See all the components from this package</div>
-                                    </AccordionItemTitle>
-                                    <AccordionItemBody>
-                                        <ul>
-                                            <li>Accordion</li>
-                                            <li>AccordionItem</li>
-                                            <li>AccordionItemTitle</li>
-                                            <li>AccordionItemBody</li>
-                                        </ul>
-                                    </AccordionItemBody>
-                                </AccordionItem>
-                            </Accordion>
+                            <RouteDetails/>
 
                             <Button text="CHANGE" icon="fas fa-arrow-left" onClick={() => history.push('/')}/>
                         </div>
