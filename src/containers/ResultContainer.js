@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {ReactComponent as Logo} from "../resources/location.svg";
 import Button from "../components/Button";
+import CSSTransitionGroup from 'react-addons-css-transition-group'
+import Fade from "../components/Fade";
 import "./ResultContainer.scss";
 
 import {
@@ -21,7 +23,9 @@ export default class ResultContainer extends Component {
         const { history } = this.props;
 
         return (
+
             <div className="container has-text-centered">
+                <Fade>
                 <Logo style={{width:70, height:70}}/>
                 <h1 className="title is-4 has-text-light">
                     Suggested Routes
@@ -80,9 +84,9 @@ export default class ResultContainer extends Component {
                             <Button text="CHANGE" icon="fas fa-arrow-left" onClick={() => history.push('/')}/>
                         </div>
                     </div>
-
-
+                </Fade>
             </div>
+
         )
     }
 

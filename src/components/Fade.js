@@ -1,9 +1,7 @@
 import React from 'react'
 import CSSTransitionGroup from 'react-addons-css-transition-group'
 
-
-
-export default (children) => (
+export default ({children}) => (
   <CSSTransitionGroup
     transitionName='fade'
     transitionAppearTimeout={500}

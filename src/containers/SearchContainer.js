@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {ReactComponent as Logo} from "../resources/train.svg";
 import Button from "../components/Button";
 import AutoSuggest from "../components/AutoSuggest";
+import Fade from "../components/Fade";
 import "./SearchContainer.scss";
 
 export default class SearchContainer extends Component {
@@ -30,6 +31,7 @@ export default class SearchContainer extends Component {
         const { history } = this.props;
         return (
             <div className="container has-text-centered">
+                <Fade>
                 <Logo style={{width:80, height:80}}/>
                 <h1 className="title is-1 has-text-light">
                     MRT Route Finder
@@ -55,7 +57,7 @@ export default class SearchContainer extends Component {
                 />
 
                 <Button text="NAVIGATE" icon="fas fa-location-arrow" onClick={() => history.push('/navigate')}/>
-
+                </Fade>
             </div>
         )
     }
