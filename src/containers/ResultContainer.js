@@ -5,13 +5,6 @@ import Fade from "../components/Fade";
 import RouteDetails from "../components/RouteDetails";
 import "./ResultContainer.scss";
 
-
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemTitle,
-    AccordionItemBody,
-} from 'react-accessible-accordion';
 import getRouteSuggestions from "../api/findPaths";
 
 export default class ResultContainer extends Component {
@@ -37,14 +30,6 @@ export default class ResultContainer extends Component {
 
     }
 
-    getRouteSummary(route) {
-
-    }
-
-    getRouteDetails(route) {
-
-    }
-
     render () {
 
         const { history } = this.props;
@@ -65,7 +50,7 @@ export default class ResultContainer extends Component {
                             <h1 className="title is-4 has-text-black">
                                 Suggested Routes
                             </h1>
-                            <RouteDetails/>
+                            <RouteDetails routes={routes}/>
 
                             <Button text="CHANGE" icon="fas fa-arrow-left" onClick={() => history.push('/')}/>
                         </div>

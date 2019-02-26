@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Tag.scss";
 
-function getLineColor(line) {
+export function getLineColor(line) {
     switch (line) {
         case "CC":
         case "CE":
