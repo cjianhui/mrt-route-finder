@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {ReactComponent as Logo} from "../resources/location.svg";
 import Button from "../components/Button";
-import CSSTransitionGroup from 'react-addons-css-transition-group'
 import Fade from "../components/Fade";
 import "./ResultContainer.scss";
 
@@ -12,26 +10,58 @@ import {
     AccordionItemTitle,
     AccordionItemBody,
 } from 'react-accessible-accordion';
+import getRouteSuggestions from "../api/findPaths";
 
 export default class ResultContainer extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+
+        this.state = {
+            loading: true,
+            routes: null
+        };
+
+        console.log(this.state);
+    }
+
+    componentDidMount() {
+        const { origin, destination } = this.props.location.state;
+        this.setState({routes: getRouteSuggestions( origin, destination)});
+
+        setTimeout(
+            function() {
+                this.setState({loading: false});
+            }.bind(this),
+            800
+        );
+
+    }
+
+    getRouteSummary(route) {
+
     }
 
     render () {
 
         const { history } = this.props;
+        const { routes } = this.state;
 
         return (
-
-            <div className="container has-text-centered">
+            this.state.loading ?
+                <div className="container has-text-centered">
+                    <i className="fas fa-spinner fa-spin fa-3x" style={{color: 'white', marginBottom: 10}}/>
+                    <h1 className="has-text-white is-1">Crunching Routes..</h1>
+                </div>
+                :
+                <div className="container has-text-centered">
                 <Fade>
-                <Logo style={{width:70, height:70}}/>
-                <h1 className="title is-4 has-text-light">
-                    Suggested Routes
-                </h1>
+
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <div className="result-box">
+                            <Logo style={{width:70, height:70}}/>
+                            <h1 className="title is-4 has-text-black">
+                                Suggested Routes
+                            </h1>
                             <Accordion>
                                 <AccordionItem>
                                     <AccordionItemTitle>
@@ -86,7 +116,6 @@ export default class ResultContainer extends Component {
                     </div>
                 </Fade>
             </div>
-
         )
     }
 

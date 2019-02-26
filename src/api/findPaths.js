@@ -1,6 +1,15 @@
 import { constructGraph } from "./buildGraph";
 const stationsJson = require('./stations');
 const THRESHOLD = 40;
+const allStations = getStations();
+
+
+export default function getRouteSuggestions(origin, destination) {
+    let paths = getPaths(origin, destination);
+    let pathDirections = getPathDetails(paths);
+    return pathDirections;
+}
+
 /*
     Path Finding API
 */
@@ -9,7 +18,7 @@ const THRESHOLD = 40;
 /*
     Returns an array of simple paths (no repeated vertices) between two vertices (origin and destination)
  */
-export function getPaths(origin, destination) {
+function getPaths(origin, destination) {
     const MRTGraph = constructGraph(); // Get graph representation of stations
 
     function findAllPaths(MRTGraph, start, end, path=[]) {
@@ -60,7 +69,7 @@ export function getPaths(origin, destination) {
 /*
     Returns shortest path between two vertices
  */
-export function getShortestPath(vertexSource, vertexDestination) {
+function getShortestPath(vertexSource, vertexDestination) {
     const MRTGraph = constructGraph();
 
     let queue = [];
@@ -94,6 +103,75 @@ export function getShortestPath(vertexSource, vertexDestination) {
 }
 
 
+export function getPathDetails(paths) {
+    function getStopsBetween(path, begin, end) {
+        const beginIndex = path.indexOf(begin);
+        const endIndex = path.indexOf(end);
+
+        return Math.abs(beginIndex - endIndex);
+
+    }
+
+    function constructDirections(type, from, to, numberOfStops, current) {
+        let directions = {};
+        directions["type"] = type;
+        directions["from"] = from;
+        directions["to"] = to;
+
+        if (type === 'ride') {
+            directions["line"] = current;
+            directions["num_stops"] = numberOfStops;
+        } else if (type === 'change') {
+            directions["station"] = current;
+        }
+
+        return directions;
+    }
+
+    let details = [];
+
+    for (let path of paths) {
+        let currentStation = path[0];
+        let currentLine = getLine(path[0], path[1]);
+        console.log(currentLine);
+        //const lineNumber = getLineNumber({ [path[0]] : currentLine});
+        let directions = { steps: [] };
+
+        for (let i = 0; i < path.length; i++) {
+            let direction = {};
+            if (path[i + 1] !== undefined) {
+                const nextLine = getLine(path[i], path[i + 1]);
+                if (currentLine !== nextLine) {
+                    direction =
+                        constructDirections("ride", currentStation, path[i],
+                            getStopsBetween(path, currentStation, path[i]), currentLine);
+                    directions["steps"].push(direction);
+
+                    let previousLine = currentLine;
+                    currentLine = nextLine;
+                    currentStation = path[i];
+                    direction =
+                        constructDirections("change", previousLine, currentLine, 0, path[i]);
+                    directions["steps"].push(direction);
+                }
+            } else {
+                direction =
+                    constructDirections("ride", currentStation, path[i],
+                        getStopsBetween(path, currentStation, path[i]), currentLine);
+                directions["steps"].push(direction);
+            }
+        }
+
+        details.push(directions);
+    }
+
+    return details;
+
+
+
+}
+
+
 /*
     ----------------------------------
     Helper Functions
@@ -104,7 +182,7 @@ export function getShortestPath(vertexSource, vertexDestination) {
     Returns an object with line as key and (sorted) station numbers as the value
     Example: { "NS": [1, 2, 3, ...], ... }
  */
-export function getAllStations() {
+function getStations() {
     const lineNumbers = Object.values(stationsJson);
     let allLines = {};
     for (let lineNumber of lineNumbers) {
@@ -125,6 +203,10 @@ export function getAllStations() {
         allLines[line].sort((a, b) => a-b);
     }
     return allLines;
+}
+
+export function getAllStations() {
+    return allStations;
 }
 
 /*
@@ -183,6 +265,46 @@ export function getStationNumberObjArray(stationNumbers) {
         }
     }
     return stationNumberArray;
+}
+
+/*
+    Returns current line given current station and next station
+*/
+function getLine(currentStation, nextStation) {
+    const currentLines = stationsJson[currentStation];
+    const nextLines = stationsJson[nextStation];
+
+    // get intersection of keys between two objects
+    const intersection = Object.keys(currentLines).filter({}.hasOwnProperty.bind(nextLines));
+
+    // if only one common key (line), that must be the current line
+    if (intersection.length === 1) {
+        return intersection[0];
+    } else {
+        // if not, check common lines to see if the stations come after each other
+        for (let line of intersection) {
+            if (Math.abs(currentLines[line] - nextLines[line]) <= 2)
+                return line;
+        }
+    }
+}
+
+
+/*
+    Given station name and line type, return an object representation of its line number
+    Example: getLineNumber("Serangoon", "NE") returns {"NE": 12}
+ */
+function getLineNumber(stationName, currentLine) {
+    const currentStation = stationsJson[stationName];
+    const lineNumber = {};
+    for (let line in currentStation) {
+        if (line === currentLine) {
+            lineNumber[line] = currentStation[line];
+        }
+    }
+
+
+    return lineNumber;
 }
 
 
