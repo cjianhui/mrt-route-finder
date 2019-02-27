@@ -18,10 +18,15 @@ const getTags = (station) => {
     const lines = stationJson[station];
     let tags = [];
 
-    for (let line in lines) {
-        tags.push(" ");
-        tags.push(<Tag line={line}/>);
+    if (Object.keys(lines).length > 1) {
+        for (let line in lines) {
+            tags.push(" ");
+            tags.push(<Tag line={line}/>);
+        }
+    } else {
+        tags.push(<Tag line={Object.keys(lines)[0]}/>);
     }
+
 
     return tags;
 };
