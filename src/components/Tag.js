@@ -20,7 +20,6 @@ export function getLineColor(line) {
         case "NS":
             return "#d42e12";
         case "PE":
-            break;
         case "BP":
         case "SE":
         case "SW":
@@ -32,16 +31,8 @@ export function getLineColor(line) {
     }
 }
 
-function getTextColor(line) {
-    if (line === "BP" || line === "SE" || line === "SW") {
-        return "has-text-black";
-    } else {
-        return "has-text-white";
-    }
-}
-
 export default ({ line }) => (
-    <span className={`tag ${getTextColor(line)} has-text-weight-bold`}
+    <span className={`tag has-text-white has-text-weight-bold`}
           style={{backgroundColor: `${getLineColor(line)}`}}>
         {line}
     </span>
