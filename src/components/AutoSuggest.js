@@ -50,9 +50,8 @@ export default ({ label, labelWidth=80, onChange, name, selectedOption, placehol
                     </a>
                 </p>
 
-                <div className="control" style={{width: 350}}>
+                <div className="control mobile">
                     <Select
-                        style={{width: 300}}
                         placeholder={placeholder}
                         components={{ Option, SingleValue }}
                         value={selectedOption}

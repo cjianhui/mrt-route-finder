@@ -60,3 +60,13 @@
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+
+.mobile {
+  width: 350px;
+}
+
+@media screen and (max-width: 500px) {
+  .mobile {
+    width: 100%;
+  }
+}
